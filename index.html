@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генрих Эпп | Семейный психолог</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    * {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    h1, h2, h3, .serif {
+      font-family: 'Playfair Display', 'Times New Roman', serif;
+    }
+
+    body {
+      background-color: #faf7f2;
+      color: #3d2e26;
+    }
+
+    .text-warm {
+      color: #3d2e26;
+    }
+    .text-muted {
+      color: #8a7a6b;
+    }
+    .bg-cream {
+      background-color: #faf7f2;
+    }
+    .bg-soft-card {
+      background-color: #ffffff;
+    }
+    .border-soft {
+      border-color: #e8dfd7;
+    }
+    .btn-primary {
+      background-color: #3d2e26;
+      color: #fff;
+      transition: background-color 0.2s ease;
+    }
+    .btn-primary:hover {
+      background-color: #5a453a;
+    }
+    .btn-outline {
+      border: 1px solid #3d2e26;
+      color: #3d2e26;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .btn-outline:hover {
+      background-color: #3d2e26;
+      color: #fff;
+    }
+    .shadow-soft {
+      box-shadow: 0 4px 20px rgba(61, 46, 38, 0.06);
+    }
+    .shadow-hover:hover {
+      box-shadow: 0 8px 30px rgba(61, 46, 38, 0.10);
+      transform: translateY(-3px);
+      transition: all 0.2s ease;
+    }
+    .border-subtle {
+      border-color: #ece4db;
+    }
+    .link-underline {
+      position: relative;
+      text-decoration: none;
+      color: #3d2e26;
+    }
+    .link-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background-color: #3d2e26;
+      transition: width 0.25s ease;
+    }
+    .link-underline:hover::after {
+      width: 100%;
+    }
+    .icon-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #f0eae4;
+      color: #3d2e26;
+      font-size: 20px;
+    }
+    .divider-light {
+      width: 60px;
+      height: 2px;
+      background-color: #d6c9be;
+      margin: 1rem auto;
+    }
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-frame {
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(61, 46, 38, 0.12);
+      aspect-ratio: 1/1;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      .photo-frame {
+        max-width: 260px;
+      }
+    }
+
+    /* ===== Стили для модального окна ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(61, 46, 38, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background-color: #ffffff;
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(61, 46, 38, 0.2);
+      position: relative;
+      animation: modalFade 0.25s ease;
+    }
+    @keyframes modalFade {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #8a7a6b;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+    .modal-close:hover {
+      color: #3d2e26;
+    }
+    .modal-box input,
+    .modal-box textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ece4db;
+      border-radius: 12px;
+      background-color: #faf7f2;
+      font-size: 0.95rem;
+      color: #3d2e26;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .modal-box input:focus,
+    .modal-box textarea:focus {
+      border-color: #3d2e26;
+      box-shadow: 0 0 0 3px rgba(61, 46, 38, 0.08);
+    }
+    .modal-box label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #3d2e26;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .modal-box .field-group {
+      margin-bottom: 1.25rem;
+    }
+    .modal-box .field-group:last-of-type {
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="max-w-6xl mx-auto px-5 py-5 flex items-center justify-between border-b border-subtle bg-white/70 backdrop-blur-sm sticky top-0 z-20">
+    <div class="flex items-center gap-2">
+      <span class="text-xl font-light tracking-wider text-warm serif">Генрих Эпп</span>
+      <span class="hidden sm:inline text-xs text-muted font-light">· психолог</span>
+    </div>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-light text-muted">
+      <a href="#about" class="link-underline">Обо мне</a>
+      <a href="#services" class="link-underline">Услуги</a>
+      <a href="#resources" class="link-underline">Ресурсы</a>
+      <a href="#" onclick="openModal(); return false;" class="px-5 py-2 rounded-full btn-primary text-sm font-medium">Записаться</a>
+    </nav>
+    <div class="md:hidden flex items-center gap-3">
+      <a href="#" onclick="openModal(); return false;" class="px-4 py-1.5 rounded-full btn-primary text-xs font-medium">Записаться</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="max-w-6xl mx-auto px-5 pt-10 pb-16 md:pt-16 md:pb-20 bg-cream">
+    <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+      <div class="flex-1 text-center md:text-left">
+        <span class="inline-block text-xs font-light tracking-[0.2em] uppercase text-muted bg-white/70 px-4 py-1.5 rounded-full border border-subtle mb-5">Семейная психология</span>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-warm serif">
+          Помогаю обрести<br />
+          <span class="font-medium">гармонию в семье</span><br />
+          через понимание и уважение
+        </h1>
+        <p class="text-muted text-base mt-5 max-w-lg mx-auto md:mx-0 leading-relaxed font-light">
+          Консультации для пар и индивидуально. Опираюсь на ценности добра, честности и веры.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
+          <a href="#" onclick="openModal(); return false;" class="px-8 py-3.5 rounded-full btn-primary text-sm font-medium shadow-md shadow-black/5">Записаться на консультацию</a>
+        </div>
+      </div>
+      <div class="flex-1 flex justify-center max-w-sm w-full">
+        <div class="photo-frame">
+          <img src="images/avatar.jpg" alt="Фото Генриха" class="w-full h-full object-cover rounded-full" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about" class="max-w-6xl mx-auto px-5 py-16 md:py-20">
+    <h2 class="text-3xl md:text-4xl font-light text-center text-warm serif">Обо мне</h2>
+    <div class="divider-light"></div>
+    <div class="grid md:grid-cols-2 gap-8 mt-10 max-w-4xl mx-auto">
+      <div class="bg-soft-card p-8 rounded-2xl shadow-soft border border-subtle hover:shadow-hover transition">
+        <div class="icon-circle mb-4">👤</div>
+        <h3 class="text-xl font-medium text-warm serif">Профессионализм</h3>
+        <ul class="mt-4 space-y-3 text-muted text-sm font-light leading-relaxed">
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> Опыт в психологии и инженерии с 1990-х</li>
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> 3 диплома по психологии, включая международный (MBA)</li>
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> Многолетняя лекционная и консультативная деятельность</li>
+        </ul>
+      </div>
+      <div class="bg-soft-card p-8 rounded-2xl shadow-soft border border-subtle hover:shadow-hover transition">
+        <div class="icon-circle mb-4">🕊️</div>
+        <h3 class="text-xl font-medium text-warm serif">Ценности и жизненный путь</h3>
+        <ul class="mt-4 space-y-3 text-muted text-sm font-light leading-relaxed">
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> Муж, отец, дважды дедушка</li>
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> Вдохновляюсь Библией и христианскими ценностями</li>
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> Более 50 лет жизненного опыта</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section id="services" class="max-w-6xl mx-auto px-5 py-16 md:py-20 bg-[#f6f1eb] rounded-[40px]">
+    <h2 class="text-3xl md:text-4xl font-light text-center text-warm serif">Услуги</h2>
+    <div class="divider-light"></div>
+    <div class="grid md:grid-cols-3 gap-6 mt-10 max-w-5xl mx-auto">
+      <div class="bg-soft-card p-7 rounded-2xl shadow-soft border border-subtle hover:shadow-hover transition flex flex-col items-start">
+        <div class="w-12 h-12 rounded-full bg-[#f0eae4] flex items-center justify-center text-2xl text-warm/60 mb-4">💑</div>
+        <h3 class="text-xl font-medium text-warm serif">Консультации для пар</h3>
+        <p class="text-muted text-sm font-light leading-relaxed mt-2 flex-1">Восстанавливаю диалог, помогаю преодолеть конфликты и укрепить связь.</p>
+        <a href="#" onclick="openModal(); return false;" class="mt-5 text-sm font-medium text-warm border-b border-warm/30 hover:border-warm transition">Выбрать →</a>
+      </div>
+      <div class="bg-soft-card p-7 rounded-2xl shadow-soft border border-subtle hover:shadow-hover transition flex flex-col items-start">
+        <div class="w-12 h-12 rounded-full bg-[#f0eae4] flex items-center justify-center text-2xl text-warm/60 mb-4">🧘</div>
+        <h3 class="text-xl font-medium text-warm serif">Индивидуальные консультации</h3>
+        <p class="text-muted text-sm font-light leading-relaxed mt-2 flex-1">Разбираю личные запросы в контексте отношений и жизненных ценностей.</p>
+        <a href="#" onclick="openModal(); return false;" class="mt-5 text-sm font-medium text-warm border-b border-warm/30 hover:border-warm transition">Выбрать →</a>
+      </div>
+      <div class="bg-soft-card p-7 rounded-2xl shadow-soft border border-subtle hover:shadow-hover transition flex flex-col items-start">
+        <div class="w-12 h-12 rounded-full bg-[#f0eae4] flex items-center justify-center text-2xl text-warm/60 mb-4">🕊️</div>
+        <h3 class="text-xl font-medium text-warm serif">Добрачное консультирование</h3>
+        <p class="text-muted text-sm font-light leading-relaxed mt-2 flex-1">Готовлю к созданию семьи на основе взаимопонимания и общих целей.</p>
+        <a href="#" onclick="openModal(); return false;" class="mt-5 text-sm font-medium text-warm border-b border-warm/30 hover:border-warm transition">Выбрать →</a>
+      </div>
+    </div>
+    <div class="text-center mt-8">
+      <span class="inline-block bg-white/70 px-6 py-2 rounded-full text-xs text-muted font-light border border-subtle">Формат: офлайн (Пермь) и онлайн</span>
+    </div>
+  </section>
+
+  <!-- ===== RESOURCES ===== -->
+  <section id="resources" class="max-w-4xl mx-auto px-5 py-16 md:py-20 text-center">
+    <h2 class="text-3xl font-light text-center text-warm serif">Полезные ресурсы</h2>
+    <div class="divider-light"></div>
+    <p class="text-muted font-light max-w-md mx-auto">Подписывайтесь, чтобы читать мои заметки о семье и отношениях.</p>
+    <div class="grid md:grid-cols-2 gap-6 mt-8 max-w-2xl mx-auto">
+      <a href="https://t.me/oniona_heinrichepp" target="_blank" rel="noopener noreferrer" class="bg-soft-card p-6 rounded-2xl shadow-soft border border-subtle hover:shadow-hover transition flex items-center gap-5 text-left">
+        <div class="w-12 h-12 rounded-full bg-[#e8f0fe] flex items-center justify-center text-2xl">📩</div>
+        <div>
+          <p class="font-medium text-warm">Telegram-канал</p>
+          <p class="text-xs text-muted font-light">«ОН и ОНА» · мысли о мужчинах и женщинах</p>
+        </div>
+      </a>
+      <a href="https://max.ru/join/La0OW8TkRyTc5IXYx6VFwoAdVL0Hlo-rWlG8q5KP3eQ" target="_blank" rel="noopener noreferrer" class="bg-soft-card p-6 rounded-2xl shadow-soft border border-subtle hover:shadow-hover transition flex items-center gap-5 text-left">
+        <div class="w-12 h-12 rounded-full bg-[#e8f0fe] flex items-center justify-center text-2xl">💬</div>
+        <div>
+          <p class="font-medium text-warm">MAX</p>
+          <p class="text-xs text-muted font-light">Присоединяйтесь к моему каналу в MAX — те же мысли, новая платформа</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="max-w-6xl mx-auto px-5 py-16 md:py-20 bg-[#f6f1eb] rounded-[40px]">
+    <div class="grid md:grid-cols-2 gap-10 items-start max-w-4xl mx-auto">
+      <div>
+        <h2 class="text-3xl font-light text-warm serif">Свяжитесь со мной</h2>
+        <p class="text-muted font-light mt-3 leading-relaxed">Выберите удобный способ — я отвечу в течение дня.</p>
+        <div class="mt-8 space-y-4 text-warm/80">
+          <div class="flex items-center gap-4">
+            <span class="text-2xl">
+              <img src="images/icons/icons8-tube-50.png" alt="Телефон"/></span>
+            <div>
+              <p class="font-medium text-warm text-sm">Телефон</p>
+              <a href="tel:+79824805198" class="text-muted hover:text-warm transition text-sm">+7 (982) 480-51-98</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-2xl">
+              <img src="images/icons/icons8-telegram-50.png" alt="Телеграм"/></span>
+            <div>
+              <p class="font-medium text-warm text-sm">Telegram</p>
+              <a href="https://t.me/genrihepp" target="_blank" class="text-muted hover:text-warm transition text-sm">@genrihepp</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-2xl">
+            <img src="images/icons/icons8-email-50.png" alt="Электронная почта"/></span>
+            <div>
+              <p class="font-medium text-warm text-sm">Электронная почта</p>
+              <a href="mailto:i@genrihepp.ru" class="text-muted hover:text-warm transition text-sm">i@genrihepp.ru</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-2xl">
+              <img src="images/icons/icons8-mark-48.png" alt="Метка местоположения"/></span>
+            <div>
+              <p class="font-medium text-warm text-sm">Офлайн</p>
+              <p class="text-sm text-muted">Пермь (по предварительной записи)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-soft-card p-6 rounded-2xl shadow-soft border border-subtle">
+        <h3 class="text-lg font-light text-warm serif">Как проходит консультация</h3>
+        <ul class="mt-4 space-y-3 text-sm text-muted font-light">
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> Первая встреча — знакомство и определение запроса (30 мин, бесплатно)</li>
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> Основная консультация — 60 минут</li>
+          <li class="flex items-start gap-3"><span class="text-warm/30">—</span> Формат: офлайн (Пермь) или онлайн</li>
+        </ul>
+        <div class="mt-6 p-4 bg-[#f6f1eb] rounded-xl text-center text-sm text-muted">
+          <p>📌 <span class="font-medium text-warm">Стоимость</span> уточняется при записи</p>
+        </div>
+        <div class="mt-4">
+          <a href="#" onclick="openModal(); return false;" class="w-full inline-block text-center py-3 rounded-full btn-primary text-sm font-medium">Записаться</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <p class="text-xs text-warm/40 text-center mt-6">
+  Нажимая на ссылки для связи, вы соглашаетесь с <a href="privacy.html" class="hover:underline text-[#b8956a]">политикой конфиденциальности</a>
+</p>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="max-w-6xl mx-auto px-5 py-8 flex flex-col md:flex-row items-center justify-between text-sm text-muted font-light border-t border-subtle gap-3">
+    <div>© 2026 Генрих Эпп · семейный психолог</div>
+    <div class="flex items-center gap-5 text-xs">
+      <a href="https://t.me/oniona_heinrichepp" target="_blank" class="hover:text-warm transition">Telegram</a>
+      <a href="https://max.ru/join/La0OW8TkRyTc5IXYx6VFwoAdVL0Hlo-rWlG8q5KP3eQ" target="_blank" class="hover:text-warm transition">MAX</a>
+      <a href="privacy.html" class="hover:text-warm transition">Политика конфиденциальности</a>
+    </div>
+  </footer>
+
+  <!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
+  <div id="modalOverlay" class="modal-overlay" onclick="if(event.target===this) closeModal();">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal();" aria-label="Закрыть">✕</button>
+      <h3 class="text-2xl font-light text-warm serif mb-1">Записаться на консультацию</h3>
+      <p class="text-sm text-muted font-light mb-5">Заполните форму, и я свяжусь с вами в ближайшее время.</p>
+
+      <form id="modalForm">
+        <div class="field-group">
+          <label for="modalName">Ваше имя *</label>
+          <input type="text" id="modalName" placeholder="Генрих" required />
+        </div>
+        <div class="field-group">
+          <label for="modalContact">Телефон или Telegram *</label>
+          <input type="text" id="modalContact" placeholder="+7 900 123-45-67" required />
+        </div>
+        <div class="field-group">
+          <label for="modalTime">Удобное время для связи</label>
+          <input type="text" id="modalTime" placeholder="вечер, после 19:00" />
+        </div>
+        <div class="field-group">
+          <label for="modalComment">Кратко о запросе (необязательно)</label>
+          <textarea id="modalComment" rows="2" placeholder="Опишите, что вас беспокоит..."></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-full btn-primary text-sm font-medium shadow-md shadow-black/5 transition">Отправить запрос</button>
+        <p class="text-xs text-muted text-center mt-3 font-light">Нажимая кнопку, вы соглашаетесь с <a href="privacy.html" class="hover:underline text-warm">политикой конфиденциальности</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Открыть модальное окно
+    function openModal() {
+      document.getElementById('modalOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Закрыть модальное окно
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Обработка формы — формируем сообщение для копирования
+    document.getElementById('modalForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('modalName').value.trim();
+      const contact = document.getElementById('modalContact').value.trim();
+      const time = document.getElementById('modalTime').value.trim();
+      const comment = document.getElementById('modalComment').value.trim();
+
+      if (!name || !contact) {
+        alert('Пожалуйста, заполните имя и контактные данные.');
+        return;
+      }
+
+      // Формируем текст сообщения
+      let msg = 'Здравствуйте! Меня зовут ' + name + '.\n';
+      msg += 'Мои контактные данные: ' + contact + '.\n';
+      if (time) msg += 'Удобное время для связи: ' + time + '.\n';
+      if (comment) msg += 'Мой запрос: ' + comment + '\n';
+      msg += '\nЯ хочу записаться на консультацию.';
+
+      // Копируем текст в буфер
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(msg).then(function() {
+          alert('✅ Сообщение скопировано!\n\nОтправьте его в удобный мессенджер или на почту.');
+          closeModal();
+          document.getElementById('modalForm').reset();
+        }).catch(function() {
+          fallbackCopy(msg);
+        });
+      } else {
+        fallbackCopy(msg);
+      }
+    });
+
+    // Fallback для старых браузеров
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        alert('✅ Сообщение скопировано!\n\nОтправьте его в удобный мессенджер или на почту.');
+        closeModal();
+        document.getElementById('modalForm').reset();
+      } catch (e) {
+        alert('❌ Не удалось скопировать текст. Скопируйте его вручную:\n\n' + text);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // Закрытие по Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
+</body>
+</html>
